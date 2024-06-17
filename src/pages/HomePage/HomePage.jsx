@@ -11,7 +11,7 @@ const HomePage = () => {
     const getData = async () => {
       try {
         const data = await getPopularMovies('cat');
-        setMovies(data);
+        setMovies(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error('Error fetching popular movies:', error);
         setErrorMessage(

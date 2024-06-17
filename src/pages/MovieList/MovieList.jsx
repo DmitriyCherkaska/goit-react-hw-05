@@ -6,10 +6,12 @@ const MovieList = ({ movies }) => {
 
   const imageBaseUrl = 'https://image.tmdb.org/t/p/w500';
 
+  const movieArray = Array.isArray(movies) ? movies : Object.values(movies);
+
   return (
     <div>
       <ul>
-        {movies.map(movie => (
+        {movieArray.map(movie => (
           <li key={movie.id}>
             <Link to={`/movies/${movie.id}`} state={location}>
               {movie.poster_path && (
@@ -34,7 +36,6 @@ MovieList.propTypes = {
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
-      poster_path: PropTypes.string,
     }),
   ).isRequired,
 };
