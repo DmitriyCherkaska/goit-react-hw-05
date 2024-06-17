@@ -1,4 +1,4 @@
-import { getPopularMovies } from '../api';
+import { getPopularMovies } from 'src/api/articles-api.js';
 import { useState, useEffect } from 'react';
 
 const HomePage = () => {

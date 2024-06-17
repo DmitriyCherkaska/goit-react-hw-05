@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import MovieCast from '../components/MovieCast';
+import MovieCast from 'src/components/MovieCast/MovieCast.jsx';
 import MovieReviews from '../components/MovieReviews';
 
 const MovieDetailsPage = () => {
@@ -11,7 +11,9 @@ const MovieDetailsPage = () => {
 
   const fetchMovieById = async movieId => {
     try {
-      const response = await fetch(`https://api.example.com/movies/${movieId}`);
+      const response = await fetch(
+        `https://api.themoviedb.org/movies/${movieId}`,
+      );
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
