@@ -5,7 +5,7 @@ import MovieList from '../MovieList/MovieList.jsx';
 
 const HomePage = () => {
   const [movies, setMovies] = useState([]);
-  const [errorMessage, setErrorMessage] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const fetchPopularMovies = async () => {

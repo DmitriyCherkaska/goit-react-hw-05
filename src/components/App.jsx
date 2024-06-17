@@ -14,12 +14,13 @@ const App = () => {
     <>
       <Navigation />
       <Routes>
-        <Route exact path="/" component={HomePage} />
-        <Route path="/movies" component={MoviesPage} />
-        <Route path="/movies/:movieId" component={MovieDetailsPage} />
-        <Route path="/movies/:movieId/cast" component={MovieCast} />
-        <Route path="/movies/:movieId/reviews" component={MovieReviews} />
-        <Route component={NotFoundPage} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/movies" element={<MoviesPage />} />
+        <Route path="/movies/:movieId" element={<MovieDetailsPage />}>
+          <Route path="/cast" element={<MovieCast />} />
+          <Route path="/reviews" element={<MovieReviews />} />
+        </Route>
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
   );

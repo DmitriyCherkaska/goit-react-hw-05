@@ -6,6 +6,7 @@ import { API_READ_ACCESS_TOKEN } from '../../api/articles-api.js';
 const MoviesPage = () => {
   const [movies, setMovies] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const fetchSearchMovies = async () => {
@@ -21,6 +22,9 @@ const MoviesPage = () => {
         setMovies(response.data.results);
       } catch (error) {
         console.error('Error fetching search movies:', error);
+        setErrorMessage(
+          'Error fetching search movies. Please try again later.',
+        );
       }
     };
 
@@ -35,7 +39,11 @@ const MoviesPage = () => {
     <div>
       <h1>Search Movies</h1>
       <input type="text" value={searchQuery} onChange={handleSearchChange} />
-      <MovieList movies={movies} />
+      {errorMessage ? (
+        <div style={{ color: 'red' }}>{errorMessage}</div>
+      ) : (
+        <MovieList movies={movies} />
+      )}
     </div>
   );
 };
