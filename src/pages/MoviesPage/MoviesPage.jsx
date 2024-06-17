@@ -1,7 +1,7 @@
-import MovieList from '../../pages/MovieList';
-import { useState, useEffect } from 'eact';
+import MovieList from '../MovieList/MovieList.jsx';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { API_READ_ACCESS_TOKEN } from '../config';
+import { API_READ_ACCESS_TOKEN } from '../../api/articles-api.js';
 
 const MoviesPage = () => {
   const [movies, setMovies] = useState([]);

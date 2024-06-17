@@ -1,4 +1,4 @@
-import { NavLink } from 'eact-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const Navigation = () => {
   return (

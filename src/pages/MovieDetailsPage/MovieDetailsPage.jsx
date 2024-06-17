@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { API_READ_ACCESS_TOKEN } from '../config';
-import MovieCast from '../components/MovieCast';
-import MovieReviews from '../components/MovieReviews';
+import { API_READ_ACCESS_TOKEN } from '../../api/articles-api.js';
+import MovieCast from '../../components/MovieCast/MovieCast.jsx';
+import MovieReviews from '../../components/MovieReviews/MovieReviews.jsx';
 
 const MovieDetailsPage = ({ match }) => {
   const [movie, setMovie] = useState({});

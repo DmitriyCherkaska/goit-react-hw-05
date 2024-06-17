@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { API_READ_ACCESS_TOKEN } from '../config';
-import MovieList from '../components/MovieList';
-
+import { API_READ_ACCESS_TOKEN } from '../../api/articles-api.js';
+import MovieList from '../MovieList/MovieList.jsx';
 const HomePage = () => {
   const [movies, setMovies] = useState([]);
 
