@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'eact';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_READ_ACCESS_TOKEN } from '../config';
 import MovieList from '../components/MovieList';
