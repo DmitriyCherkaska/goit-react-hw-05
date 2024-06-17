@@ -1,7 +1,7 @@
 import MovieList from '../MovieList/MovieList.jsx';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { API_READ_ACCESS_TOKEN } from '../../api/articles-api.js';
+// import axios from 'axios';
+import { getPopularMovies } from '../../api/articles-api.js';
 
 const MoviesPage = () => {
   const [movies, setMovies] = useState([]);
@@ -11,19 +11,12 @@ const MoviesPage = () => {
   useEffect(() => {
     const fetchSearchMovies = async () => {
       try {
-        const response = await axios.get(
-          `https://api.themoviedb.org/3/search/movie?include_adult=false&language=en-US&page=1&query=${searchQuery}`,
-          {
-            headers: {
-              Authorization: `Bearer ${API_READ_ACCESS_TOKEN}`,
-            },
-          },
-        );
-        setMovies(response.data.results);
+        const data = await getPopularMovies('cat');
+        setMovies(data);
       } catch (error) {
-        console.error('Error fetching search movies:', error);
+        console.error('Error fetching popular movies:', error);
         setErrorMessage(
-          'Error fetching search movies. Please try again later.',
+          'Error fetching popular movies. Please try again later.',
         );
       }
     };

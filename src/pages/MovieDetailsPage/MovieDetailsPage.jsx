@@ -1,6 +1,6 @@
 import MovieCast from '../../components/MovieCast/MovieCast.jsx';
 import MovieReviews from '../../components/MovieReviews/MovieReviews.jsx';
-import { API_READ_ACCESS_TOKEN } from '../../api/articles-api.js';
+import { getPopularMovies } from '../../api/articles-api.js';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -8,6 +8,20 @@ const MovieDetailsPage = ({ match }) => {
   const [movie, setMovie] = useState({});
   const [cast, setCast] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [apiToken, setApiToken] = useState('');
+
+  useEffect(() => {
+    const fetchApiToken = async () => {
+      try {
+        const token = await getPopularMovies();
+        setApiToken(token);
+      } catch (error) {
+        console.error('Ошибка получения токена API:', error);
+      }
+    };
+
+    fetchApiToken();
+  }, []);
 
   useEffect(() => {
     const fetchMovieData = async () => {
@@ -17,7 +31,7 @@ const MovieDetailsPage = ({ match }) => {
             `https://api.themoviedb.org/3/movie/${match.params.movieId}`,
             {
               headers: {
-                Authorization: `Bearer ${API_READ_ACCESS_TOKEN}`,
+                Authorization: `Bearer ${apiToken}`,
               },
             },
           ),
@@ -25,7 +39,7 @@ const MovieDetailsPage = ({ match }) => {
             `https://api.themoviedb.org/3/movie/${match.params.movieId}/credits`,
             {
               headers: {
-                Authorization: `Bearer ${API_READ_ACCESS_TOKEN}`,
+                Authorization: `Bearer ${apiToken}`,
               },
             },
           ),
@@ -33,7 +47,7 @@ const MovieDetailsPage = ({ match }) => {
             `https://api.themoviedb.org/3/movie/${match.params.movieId}/reviews`,
             {
               headers: {
-                Authorization: `Bearer ${API_READ_ACCESS_TOKEN}`,
+                Authorization: `Bearer ${apiToken}`,
               },
             },
           ),
@@ -47,10 +61,10 @@ const MovieDetailsPage = ({ match }) => {
       }
     };
 
-    if (match.params.movieId) {
+    if (match.params.movieId && apiToken) {
       fetchMovieData();
     }
-  }, [match.params.movieId, API_READ_ACCESS_TOKEN]);
+  }, [match.params.movieId, apiToken]);
 
   return (
     <div>
