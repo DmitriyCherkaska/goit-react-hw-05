@@ -18,4 +18,5 @@
 
 // export default getPopularMovies;
 
-export const API_READ_ACCESS_TOKEN = 'YOUR_API_READ_ACCESS_TOKEN';
+// export const API_READ_ACCESS_TOKEN =
+//   'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwNGI5YzQwYTU1YTc5MTQ2M2VlNGQ1ZWZjYjk1OWE5MiIsInN1YiI6IjY2NmYxODIzYmUwYThkY2Y5YzkzMGMwMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.hhnRXCL3m7Wky9HcRgX6zFoMzK2BaBQHiqwxUYnFI-4';

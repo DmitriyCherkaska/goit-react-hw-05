@@ -1,9 +1,11 @@
+import { API_READ_ACCESS_TOKEN } from '../../api/articles-api.js';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { API_READ_ACCESS_TOKEN } from '../../api/articles-api.js';
 import MovieList from '../MovieList/MovieList.jsx';
+
 const HomePage = () => {
   const [movies, setMovies] = useState([]);
+  const [errorMessage, setErrorMessage] = useState([]);
 
   useEffect(() => {
     const fetchPopularMovies = async () => {
@@ -19,6 +21,9 @@ const HomePage = () => {
         setMovies(response.data.results);
       } catch (error) {
         console.error('Error fetching popular movies:', error);
+        setErrorMessage(
+          'Error fetching popular movies. Please try again later.',
+        );
       }
     };
 
@@ -28,7 +33,11 @@ const HomePage = () => {
   return (
     <div>
       <h1>Popular Movies</h1>
-      <MovieList movies={movies} />
+      {errorMessage ? (
+        <div style={{ color: 'red' }}>{errorMessage}</div>
+      ) : (
+        <MovieList movies={movies} />
+      )}
     </div>
   );
 };
