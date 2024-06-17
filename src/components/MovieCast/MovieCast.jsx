@@ -1,9 +1,14 @@
-const LoadMoreBtn = ({ onLoadMore }) => {
+const MovieCast = ({ cast }) => {
   return (
-    <button type="click" onClick={onLoadMore}>
-      Load more
-    </button>
+    <div>
+      <h2>Cast</h2>
+      <ul>
+        {cast.map(actor => (
+          <li key={actor.id}>{actor.name}</li>
+        ))}
+      </ul>
+    </div>
   );
 };
 
-export default LoadMoreBtn;
+export default MovieCast;

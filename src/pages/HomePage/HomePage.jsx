@@ -1,22 +1,32 @@
+import { getPopularMovies } from '../api';
+import { useState, useEffect } from 'react';
+
 const HomePage = () => {
-  const options = {
-    method: 'GET',
-    headers: {
-      accept: 'application/json',
-      Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwNGI5YzQwYTU1YTc5MTQ2M2VlNGQ1ZWZjYjk1OWE5MiIsInN1YiI6IjY2NmYxODIzYmUwYThkY2Y5YzkzMGMwMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.hhnRXCL3m7Wky9HcRgX6zFoMzK2BaBQHiqwxUYnFI-4',
-    },
-  };
+  const [movies, setMovies] = useState([]);
 
-  fetch(
-    'https://api.themoviedb.org/3/trending/movie/day?language=en-US',
-    options,
-  )
-    .then(response => response.json())
-    .then(response => console.log(response))
-    .catch(err => console.error(err));
+  useEffect(() => {
+    const fetchPopularMovies = async () => {
+      try {
+        const response = await getPopularMovies();
+        setMovies(response.data.results);
+      } catch (error) {
+        console.error('Error fetching popular movies:', error);
+      }
+    };
 
-  return <div>HomePage</div>;
+    fetchPopularMovies();
+  }, []);
+
+  return (
+    <div>
+      <h1>Popular Movies</h1>
+      <ul>
+        {movies.map(movie => (
+          <li key={movie.id}>{movie.title}</li>
+        ))}
+      </ul>
+    </div>
+  );
 };
 
 export default HomePage;
