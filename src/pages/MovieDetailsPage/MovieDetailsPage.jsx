@@ -1,62 +1,80 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import MovieCast from 'src/components/MovieCast/MovieCast.jsx';
+import axios from 'axios';
+import { API_READ_ACCESS_TOKEN } from '../config';
+import MovieCast from '../components/MovieCast';
 import MovieReviews from '../components/MovieReviews';
 
-const MovieDetailsPage = () => {
-  const { movieId } = useParams();
-  const [movie, setMovie] = useState(null);
+const MovieDetailsPage = ({ match }) => {
+  const [movie, setMovie] = useState({});
   const [cast, setCast] = useState([]);
   const [reviews, setReviews] = useState([]);
 
-  const fetchMovieById = async movieId => {
-    try {
-      const response = await fetch(
-        `https://api.themoviedb.org/movies/${movieId}`,
-      );
-      if (!response.ok) {
-        throw new Error('Failed to fetch data');
-      }
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  };
-
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchMovieDetails = async () => {
       try {
-        const movieData = await fetchMovieById(movieId);
-
-        if (movieData) {
-          setMovie(movieData);
-          setCast(movieData.cast);
-          setReviews(movieData.reviews);
-        } else {
-          console.error('Failed to fetch movie data');
-        }
+        const response = await axios.get(
+          `https://api.themoviedb.org/3/movie/${match.params.movieId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${API_READ_ACCESS_TOKEN}`,
+            },
+          },
+        );
+        setMovie(response.data);
       } catch (error) {
-        console.error('Error fetching movie data', error);
+        console.error('Error fetching movie details:', error);
       }
     };
 
-    fetchData();
-  }, [movieId]);
+    fetchMovieDetails();
+  }, [match.params.movieId]);
+
+  useEffect(() => {
+    const fetchMovieCast = async () => {
+      try {
+        const response = await axios.get(
+          `https://api.themoviedb.org/3/movie/${match.params.movieId}/credits`,
+          {
+            headers: {
+              Authorization: `Bearer ${API_READ_ACCESS_TOKEN}`,
+            },
+          },
+        );
+        setCast(response.data.cast);
+      } catch (error) {
+        console.error('Error fetching movie cast:', error);
+      }
+    };
+
+    fetchMovieCast();
+  }, [match.params.movieId]);
+
+  useEffect(() => {
+    const fetchMovieReviews = async () => {
+      try {
+        const response = await axios.get(
+          `https://api.themoviedb.org/3/movie/${match.params.movieId}/reviews`,
+          {
+            headers: {
+              Authorization: `Bearer ${API_READ_ACCESS_TOKEN}`,
+            },
+          },
+        );
+        setReviews(response.data.results);
+      } catch (error) {
+        console.error('Error fetching movie reviews:', error);
+      }
+    };
+
+    fetchMovieReviews();
+  }, [match.params.movieId]);
 
   return (
     <div>
-      {movie ? (
-        <div>
-          <h1>{movie.title}</h1>
-          <p>{movie.overview}</p>
-          <MovieCast cast={cast} />
-          <MovieReviews reviews={reviews} />
-        </div>
-      ) : (
-        <p>Loading...</p>
-      )}
+      <h1>{movie.title}</h1>
+      <p>{movie.overview}</p>
+      <MovieCast cast={cast} />
+      <MovieReviews reviews={reviews} />
     </div>
   );
 };

@@ -1,23 +1,27 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Navigation from './components/Navigation/Navigation';
-import HomePage from './pages/HomePage/HomePage';
-import MoviesPage from './pages/MoviesPage/MoviesPage';
-import MovieDetailsPage from './pages/MovieDetailsPage/MovieDetailsPage';
-import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
+import { Routes, Route } from 'react-router-dom';
+
+import HomePage from '../../pages/HomePage/HomePage';
+import MovieDetailsPage from '../../pages/MovieDetailsPage/MovieDetailsPage.jsx';
+import MoviesPage from '../../pages/MoviesPage/MoviesPage.jsx';
+import NotFoundPage from '../../pages/NotFoundPage/NotFoundPage.jsx';
+
+import Navigation from '../../components/Navigation/Navigation.jsx';
+import MovieCast from '../MovieCast/MovieCast.jsx';
+import MovieReviews from '../MovieReviews/MovieReviews.jsx';
 
 const App = () => {
   return (
-    <Router>
-      <div>
-        <Navigation />
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route exact path="/movies" component={MoviesPage} />
-          <Route path="/movies/:movieId" component={MovieDetailsPage} />
-          <Route component={NotFoundPage} />
-        </Switch>
-      </div>
-    </Router>
+    <>
+      <Navigation />
+      <Routes>
+        <Route exact path="/" component={HomePage} />
+        <Route path="/movies" component={MoviesPage} />
+        <Route path="/movies/:movieId" component={MovieDetailsPage} />
+        <Route path="/movies/:movieId/cast" component={MovieCast} />
+        <Route path="/movies/:movieId/reviews" component={MovieReviews} />
+        <Route component={NotFoundPage} />
+      </Routes>
+    </>
   );
 };
 

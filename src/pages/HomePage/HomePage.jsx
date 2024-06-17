@@ -1,5 +1,7 @@
-import { getPopularMovies } from 'src/api/articles-api.js';
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'eact';
+import axios from 'axios';
+import { API_READ_ACCESS_TOKEN } from '../config';
+import MovieList from '../components/MovieList';
 
 const HomePage = () => {
   const [movies, setMovies] = useState([]);
@@ -7,7 +9,14 @@ const HomePage = () => {
   useEffect(() => {
     const fetchPopularMovies = async () => {
       try {
-        const response = await getPopularMovies();
+        const response = await axios.get(
+          'https://api.themoviedb.org/3/trending/movie/week',
+          {
+            headers: {
+              Authorization: `Bearer ${API_READ_ACCESS_TOKEN}`,
+            },
+          },
+        );
         setMovies(response.data.results);
       } catch (error) {
         console.error('Error fetching popular movies:', error);
@@ -20,11 +29,7 @@ const HomePage = () => {
   return (
     <div>
       <h1>Popular Movies</h1>
-      <ul>
-        {movies.map(movie => (
-          <li key={movie.id}>{movie.title}</li>
-        ))}
-      </ul>
+      <MovieList movies={movies} />
     </div>
   );
 };
