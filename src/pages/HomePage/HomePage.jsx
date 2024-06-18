@@ -1,7 +1,7 @@
 import { getPopularMovies } from '../../api/articles-api.js';
 import { useState, useEffect } from 'react';
 // import axios from 'axios';
-import MovieList from '../MovieList/MovieList.jsx';
+import MovieList from '../../components/MovieList/MovieList.jsx';
 
 const HomePage = () => {
   const [movies, setMovies] = useState([]);

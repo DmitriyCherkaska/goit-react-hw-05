@@ -1,4 +1,4 @@
-import MovieList from '../MovieList/MovieList.jsx';
+import MovieList from '../../components/MovieList/MovieList.jsx';
 import { useState, useEffect } from 'react';
 // import axios from 'axios';
 import { getPopularMovies } from '../../api/articles-api.js';

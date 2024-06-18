@@ -1,10 +1,6 @@
-const NotFoundPage = () => {
-  return (
-    <div>
-      <h1>404 - Page Not Found</h1>
-      <p>We are sorry, the page you are looking for does not exist.</p>
-    </div>
-  );
-};
+import { Link } from 'react-router-dom';
 
-export default NotFoundPage;
+const NotFound = () => {
+  return <Link to="/"></Link>;
+};
+export default NotFound;
