@@ -1,44 +1,70 @@
-import MovieList from '../../components/MovieList/MovieList.jsx';
-import { useState, useEffect } from 'react';
-// import axios from 'axios';
+// import style from './MoviesPage.module.css';
+import { useEffect, useState } from 'react';
 import { getPopularMovies } from '../../api/articles-api.js';
+import { useSearchParams } from 'react-router-dom';
+import MovieList from '../../components/MovieList/MovieList';
+import FormSearch from '../../components/FormSearch/FormSearch';
+import MessageText from '../../components/MessageText/MessageText';
+import RequestNotFound from '../../components/RequestNotFound/RequestNotFound';
+import Loader from '../../components/Loader/Loader';
+import Error from '../../components/Error/Error';
+import ButtonUp from '../../components/ButtonUp/ButtonUp';
 
 const MoviesPage = () => {
+  const [loading, setLoading] = useState(false);
   const [movies, setMovies] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [isEmpty, setIsEmpty] = useState(false);
+  const [error, setError] = useState(null);
+  const [isError, setIsError] = useState(false);
+  const [isNoText, setIsNoText] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const text = searchParams.get('text');
 
   useEffect(() => {
-    const fetchSearchMovies = async () => {
+    if (text === '') {
+      setIsNoText(true);
+      return;
+    }
+
+    async function getSearchMovies() {
+      setLoading(true);
       try {
-        const data = await getPopularMovies('cat');
-        setMovies(data);
+        const { results } = await getPopularMovies(text);
+        setMovies(results);
+        setIsNoText(false);
+        results.length === 0 && setIsEmpty(true);
       } catch (error) {
-        console.error('Error fetching popular movies:', error);
-        setErrorMessage(
-          'Error fetching popular movies. Please try again later.',
-        );
+        console.error('error in App', error);
+        setError(error.message);
+        setIsError(true);
+      } finally {
+        setLoading(false);
       }
-    };
+    }
+    text && getSearchMovies();
+  }, [text]);
 
-    fetchSearchMovies();
-  }, [searchQuery]);
-
-  const handleSearchChange = e => {
-    setSearchQuery(e.target.value);
+  const searchMovie = textInput => {
+    setSearchParams({ text: textInput });
+    setIsEmpty(false);
+    setMovies([]);
   };
-
   return (
-    <div>
-      <h1>Search Movies</h1>
-      <input type="text" value={searchQuery} onChange={handleSearchChange} />
-      {errorMessage ? (
-        <div style={{ color: 'red' }}>{errorMessage}</div>
-      ) : (
-        <MovieList movies={movies} />
+    <>
+      <div>
+        <FormSearch submit={searchMovie} />
+        {isNoText && <MessageText />}
+        {isError && <Error errorType={error} />}
+        {loading && <Loader />}
+        {isEmpty && !loading && <RequestNotFound />}
+      </div>
+      {movies.length > 0 && <MovieList movies={movies} />}
+      {movies.length > 0 && (
+        <div>
+          <ButtonUp />
+        </div>
       )}
-    </div>
+    </>
   );
 };
-
 export default MoviesPage;
