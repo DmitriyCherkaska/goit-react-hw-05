@@ -19,7 +19,7 @@ const MovieCast = () => {
 
   const firstCastsRef = useRef(null);
   useEffect(() => {
-    if (casts.length > 0 && firstCastsRef.current) {
+    if (casts && casts.length > 0 && firstCastsRef.current) {
       const { height } = firstCastsRef.current.getBoundingClientRect();
       window.scrollBy({ top: height * 2, behavior: 'smooth' });
     }
@@ -46,8 +46,8 @@ const MovieCast = () => {
     <section>
       {isError && <Error errorType={error} />}
       {loading && <Loader />}
-      {casts.length === 0 && <MessageCasts />}
-      {casts.length > 0 && (
+      {casts?.length === 0 && <MessageCasts />}
+      {casts?.length > 0 && (
         <ul className={style.listCast}>
           {casts.map((el, index) => {
             return (

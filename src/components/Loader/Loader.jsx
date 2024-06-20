@@ -1,18 +1,20 @@
-import { Blocks } from 'react-loader-spinner';
+import { Circles } from 'react-loader-spinner';
 // import style from './Loader.module.css';
 
 const Loader = () => {
   return (
     <div>
-      <Blocks
+      (
+      <Circles
         height="80"
         width="80"
         color="#4fa94d"
-        ariaLabel="blocks-loading"
+        ariaLabel="circles-loading"
         wrapperStyle={{}}
-        wrapperClass="blocks-wrapper"
+        wrapperClass=""
         visible={true}
       />
+      )
     </div>
   );
 };
