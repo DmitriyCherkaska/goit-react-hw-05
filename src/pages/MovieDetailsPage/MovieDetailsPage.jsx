@@ -1,79 +1,114 @@
-import MovieCast from '../../components/MovieCast/MovieCast.jsx';
-import MovieReviews from '../../components/MovieReviews/MovieReviews.jsx';
-import { getPopularMovies } from '../../api/articles-api.js';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import style from './MovieDetailsPage.module.css';
+import {
+  Link,
+  NavLink,
+  Outlet,
+  useLocation,
+  useParams,
+} from 'react-router-dom';
+import clsx from 'clsx';
+import { BiArrowFromRight } from ' react-icons/bi';
+import { getPopularMovies } from '../../api/articles-api';
+import Error from '../../components/Error/Error';
+import Loader from '../../components/Loader/Loader';
+import { Suspense, useEffect, useRef, useState } from 'react';
 
-const MovieDetailsPage = ({ match }) => {
-  const [movie, setMovie] = useState({});
-  const [cast, setCast] = useState([]);
-  const [reviews, setReviews] = useState([]);
-  const [apiToken, setApiToken] = useState('');
+const buildLinkClass = ({ isActive }) => {
+  return clsx(style.link, isActive && style.active);
+};
+
+const defaultImg =
+  'https://isz.minsk.by/upload/medialibrary/cb5/cb5e831088ab58cf5447f2b64732cd22.jpg';
+
+const MovieDetailsPage = () => {
+  const { movieId } = useParams();
+  const [movie, setMovie] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const [error, setError] = useState(null);
+  const [isError, setIsError] = useState(false);
+
+  const backLink = location.state ?? '/movies';
+
+  const navLinkCasts = useRef();
+  const navLinkReviews = useRef();
 
   useEffect(() => {
-    const fetchApiToken = async () => {
+    async function getMovieDetails() {
       try {
-        const token = await getPopularMovies();
-        setApiToken(token);
+        const data = await getPopularMovies(movieId);
+        setMovie(data);
       } catch (error) {
-        console.error('Ошибка получения токена API:', error);
+        console.error(error);
+        setError(error.message);
+        setIsError(true);
+      } finally {
+        setLoading(false);
       }
-    };
-
-    fetchApiToken();
-  }, []);
-
-  useEffect(() => {
-    const fetchMovieData = async () => {
-      try {
-        const responses = await Promise.all([
-          axios.get(
-            `https://api.themoviedb.org/3/movie/${match.params.movieId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${apiToken}`,
-              },
-            },
-          ),
-          axios.get(
-            `https://api.themoviedb.org/3/movie/${match.params.movieId}/credits`,
-            {
-              headers: {
-                Authorization: `Bearer ${apiToken}`,
-              },
-            },
-          ),
-          axios.get(
-            `https://api.themoviedb.org/3/movie/${match.params.movieId}/reviews`,
-            {
-              headers: {
-                Authorization: `Bearer ${apiToken}`,
-              },
-            },
-          ),
-        ]);
-
-        setMovie(responses[0].data);
-        setCast(responses[1].data.cast);
-        setReviews(responses[2].data.results);
-      } catch (error) {
-        console.error('Ошибка извлечения данных фильма:', error);
-      }
-    };
-
-    if (match.params.movieId && apiToken) {
-      fetchMovieData();
     }
-  }, [match.params.movieId, apiToken]);
+    getMovieDetails();
+  }, [movieId]);
 
   return (
-    <div>
-      <h1>{movie.title}</h1>
-      <p>{movie.overview}</p>
-      <MovieCast cast={cast} />
-      <MovieReviews reviews={reviews} />
+    <div className={style.wrapper}>
+      <Link to={backLink} outline="none">
+        <div className={style.backBtn}>
+          <BiArrowFromRight color="rgb(196, 205, 219)" outline="none" />
+          <span className={style.span}>Go back</span>
+        </div>
+      </Link>
+      {loading && <Loader />}
+      {isError && <Error errorType={error} />}
+      {!loading && movie && (
+        <div className={style.movieDetails}>
+          <div>
+            <img
+              src={
+                movie.poster_path
+                  ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+                  : defaultImg
+              }
+              width={400}
+              alt={movie.title}
+            />
+          </div>
+          <div className={style.description}>
+            <h1 className={style.title}>{movie.title}</h1>
+            <p className={style.overview}>{movie.overview}</p>
+            <div className={style.info}>
+              <p>
+                Release Date:{' '}
+                <span className={style.span}>{movie.release_date}</span>
+              </p>
+              <p>
+                Rating: <span className={style.span}>{movie.vote_average}</span>
+              </p>
+            </div>
+            <div className={style.nav}>
+              <NavLink
+                ref={navLinkCasts}
+                to="cast"
+                state={location.state}
+                className={buildLinkClass}
+              >
+                <div className={style.backBtn}>Cast</div>
+              </NavLink>
+              <NavLink
+                ref={navLinkReviews}
+                to="reviews"
+                state={location.state}
+                className={buildLinkClass}
+              >
+                <div className={style.backBtn}>Reviews</div>
+              </NavLink>
+            </div>
+          </div>
+        </div>
+      )}
+      <Suspense fallback={<Loader />}>
+        <Outlet />
+      </Suspense>
     </div>
   );
 };
-
 export default MovieDetailsPage;
