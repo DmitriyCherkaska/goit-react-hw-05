@@ -1,7 +1,7 @@
 // import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { fetchTrendingMovies } from '../../api/articles-api.js';
-import { useState, useEffect } from 'react';
-import MovieList from '../../components/MovieList/MovieList.jsx';
+import MovieList from '../../components/MovieList/MovieList';
 import Error from '../../components/Error/Error';
 import Loader from '../../components/Loader/Loader';
 
