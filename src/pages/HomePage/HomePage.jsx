@@ -1,7 +1,8 @@
 // import axios from 'axios';
+import style from './HomePage.module.css';
 import { useEffect, useState } from 'react';
 import { fetchTrendingMovies } from '../../api/articles-api.js';
-import MovieList from '../../components/MovieList/MovieList';
+import MovieList from '../../components/MovieList/MovieList.jsx';
 import Error from '../../components/Error/Error';
 import Loader from '../../components/Loader/Loader';
 
@@ -12,29 +13,29 @@ const HomePage = () => {
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
-    const getData = async () => {
+    async function getTrendingMovies() {
+      setLoading(true);
       try {
-        const data = await fetchTrendingMovies();
-        setMovies(Array.isArray(data) ? data : []);
+        const { results } = await fetchTrendingMovies();
+        setMovies(results);
       } catch (error) {
-        console.error('Error fetching popular movies:', error);
-        setError('Error fetching popular movies. Please try again later.');
+        console.error('error in App', error);
+        setError(error.message);
         setIsError(true);
       } finally {
         setLoading(false);
       }
-    };
-
-    getData();
+    }
+    getTrendingMovies();
   }, []);
 
   return (
-    <div>
-      <h2>Popular Movies</h2>
+    <>
+      <h2 className={style.title}>TRENDING MOVIES</h2>
       {loading && <Loader />}
       {isError && <Error errorType={error} />}
       {!loading && <MovieList movies={movies} />}
-    </div>
+    </>
   );
 };
 

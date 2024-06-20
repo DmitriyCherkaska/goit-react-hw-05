@@ -1,4 +1,4 @@
-// import style from './MovieList.module.css';
+import style from './MovieList.module.css';
 import { Link, useLocation } from 'react-router-dom';
 
 const defaultImg =
@@ -9,7 +9,7 @@ const MovieList = ({ movies }) => {
 
   return (
     <>
-      <ul>
+      <ul className={style.list}>
         {movies.map(movie => {
           return (
             <li key={movie.id}>
@@ -22,7 +22,7 @@ const MovieList = ({ movies }) => {
                           ? `https://image.tmdb.org/t/p/w300/${movie.poster_path}`
                           : defaultImg
                       }
-                      width={400}
+                      width={300}
                       alt={movie.title}
                     />
                   </div>

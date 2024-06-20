@@ -4,14 +4,14 @@ import style from './Navigation.module.css';
 const Navigation = () => {
   return (
     <nav>
-      <ul>
-        <li>
-          <Link to="/" exact="true" className={style.title}>
+      <ul className={style.list}>
+        <li className={style.item}>
+          <Link to="/" exact="true" className={style.titleOne}>
             Home
           </Link>
         </li>
-        <li>
-          <Link to="/movies" className={style.title}>
+        <li className={style.item}>
+          <Link to="/movies" className={style.titleTwo}>
             Movies
           </Link>
         </li>
