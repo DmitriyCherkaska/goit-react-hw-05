@@ -1,6 +1,6 @@
 // import style from './MoviesPage.module.css';
 import { useEffect, useState } from 'react';
-import { getPopularMovies } from '../../api/articles-api.js';
+import { searchMovies } from '../../api/articles-api.js';
 import { useSearchParams } from 'react-router-dom';
 import MovieList from '../../components/MovieList/MovieList';
 import FormSearch from '../../components/FormSearch/FormSearch';
@@ -28,7 +28,7 @@ const MoviesPage = () => {
     async function getSearchMovies() {
       setLoading(true);
       try {
-        const { results } = await getPopularMovies(text);
+        const { results } = await searchMovies(text);
         setMovies(results);
         setIsNoText(false);
         results.length === 0 && setIsEmpty(true);

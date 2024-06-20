@@ -30,6 +30,7 @@
     "suspense": "^0.0.53"
   },
   "devDependencies": {
+    "@klarr-agency/circum-icons-react": "^2.0.2",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react": "^4.2.1",

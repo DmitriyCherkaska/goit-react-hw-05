@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 import clsx from 'clsx';
 import { BiArrowFromRight } from 'react-icons/bi';
-import { getPopularMovies } from '../../api/articles-api';
+import { fetchMovieDetails } from '../../api/articles-api';
 import Error from '../../components/Error/Error';
 import Loader from '../../components/Loader/Loader';
 import { Suspense, useEffect, useRef, useState } from 'react';
@@ -36,7 +36,7 @@ const MovieDetailsPage = () => {
   useEffect(() => {
     async function getMovieDetails() {
       try {
-        const data = await getPopularMovies(movieId);
+        const data = await fetchMovieDetails(movieId);
         setMovie(data);
       } catch (error) {
         console.error(error);
