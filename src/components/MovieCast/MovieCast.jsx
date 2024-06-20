@@ -1,5 +1,5 @@
 // import ButtonUp from '../ButtonUp/ButtonUp';
-// import style from './MovieCast.module.css';
+import style from './MovieCast.module.css';
 import { useEffect, useRef, useState } from 'react';
 import { getPopularMovies } from '../../api/articles-api';
 import { useParams } from 'react-router-dom';
@@ -48,7 +48,7 @@ const MovieCast = () => {
       {loading && <Loader />}
       {casts.length === 0 && <MessageCasts />}
       {casts.length > 0 && (
-        <ul>
+        <ul className={style.listCast}>
           {casts.map((el, index) => {
             return (
               <li key={el.id} ref={index === 0 ? firstCastsRef : null}>

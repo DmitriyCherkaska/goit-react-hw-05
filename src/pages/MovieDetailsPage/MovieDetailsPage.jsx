@@ -7,7 +7,7 @@ import {
   useParams,
 } from 'react-router-dom';
 import clsx from 'clsx';
-import { BiArrowFromRight } from ' react-icons/bi';
+import { BiArrowFromRight } from 'react-icons/bi';
 import { getPopularMovies } from '../../api/articles-api';
 import Error from '../../components/Error/Error';
 import Loader from '../../components/Loader/Loader';

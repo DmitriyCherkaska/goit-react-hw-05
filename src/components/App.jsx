@@ -3,15 +3,6 @@ import { Suspense, lazy } from 'react';
 import Navigation from './Navigation/Navigation';
 import Loader from './Loader/Loader';
 
-// import HomePage from '../pages/HomePage/HomePage.jsx';
-// import MovieDetailsPage from '../pages/MovieDetailsPage/MovieDetailsPage.jsx';
-// import MoviesPage from '../pages/MoviesPage/MoviesPage.jsx';
-// import NotFound from '../pages/NotFoundPage/NotFoundPage.jsx';
-
-// import Navigation from '../components/Navigation/Navigation.jsx';
-// import MovieCast from '../components/MovieCast/MovieCast.jsx';
-// import MovieReviews from '../components/MovieReviews/MovieReviews.jsx';
-
 const HomePage = lazy(() => import('../pages/HomePage/HomePage'));
 const MoviesPage = lazy(() => import('../pages/MoviesPage/MoviesPage'));
 const MovieDetailsPage = lazy(() =>
