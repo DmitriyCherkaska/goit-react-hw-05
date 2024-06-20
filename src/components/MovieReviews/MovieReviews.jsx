@@ -1,7 +1,7 @@
 // import ButtonUp from '../ButtonUp/ButtonUp';
 // import style from './MovieReviews.module.css';
 import { useEffect, useRef, useState } from 'react';
-import { getPopularMovies } from '../../api/articles-api';
+import { fetchReviews } from '../../api/articles-api';
 import { useParams } from 'react-router-dom';
 import { FaRegUser } from 'react-icons/fa6';
 import MessageReviews from '../MessageReviews/MessageReviews';
@@ -30,7 +30,7 @@ const MovieReviews = () => {
     async function getMovieDetails() {
       setLoading(true);
       try {
-        const { results } = await getPopularMovies(movieId);
+        const { results } = await fetchReviews(movieId);
         setReviews(results);
         results.length === 0 && setIsEmpty(true);
       } catch (error) {

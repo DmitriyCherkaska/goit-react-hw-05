@@ -1,5 +1,5 @@
 // import axios from 'axios';
-import { getPopularMovies } from '../../api/articles-api.js';
+import { fetchTrendingMovies } from '../../api/articles-api.js';
 import { useState, useEffect } from 'react';
 import MovieList from '../../components/MovieList/MovieList.jsx';
 import Error from '../../components/Error/Error';
@@ -8,13 +8,13 @@ import Loader from '../../components/Loader/Loader';
 const HomePage = () => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(null);
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const data = await getPopularMovies('cat');
+        const data = await fetchTrendingMovies();
         setMovies(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error('Error fetching popular movies:', error);
