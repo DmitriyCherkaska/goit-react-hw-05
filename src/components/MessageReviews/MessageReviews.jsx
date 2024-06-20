@@ -1,5 +1,5 @@
 // import style from './MessageReviews.module.css';
-import { FaRegUserCircle } from 'react-icons/fa';
+import { FaRegAddressCard } from 'react-icons/fa';
 import { CiStar } from 'react-icons/ci';
 import { useEffect, useRef } from 'react';
 
@@ -18,7 +18,7 @@ const MessageReviews = () => {
         <h4>Rating and review</h4>
         <p>Leave a review to help other users</p>
         <div>
-          <FaRegUserCircle size={30} />
+          <FaRegAddressCard size={30} />
           <div>
             <CiStar color="orange" size={30} />
             <CiStar color="orange" size={30} />

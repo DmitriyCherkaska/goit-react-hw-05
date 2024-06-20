@@ -1,7 +1,7 @@
 // import ButtonUp from '../ButtonUp/ButtonUp';
 import style from './MovieCast.module.css';
 import { useEffect, useRef, useState } from 'react';
-import { getPopularMovies } from '../../api/articles-api';
+import { fetchCast } from '../../api/articles-api';
 import { useParams } from 'react-router-dom';
 import Loader from '../Loader/Loader';
 import Error from '../Error/Error';
@@ -29,7 +29,7 @@ const MovieCast = () => {
     async function getMovieDetails() {
       setLoading(true);
       try {
-        const { cast } = await getPopularMovies(movieId);
+        const { cast } = await fetchCast(movieId);
         setCasts(cast);
       } catch (error) {
         console.error(error);
