@@ -8,7 +8,6 @@ import MessageText from '../../components/MessageText/MessageText';
 import RequestNotFound from '../../components/RequestNotFound/RequestNotFound';
 import Loader from '../../components/Loader/Loader';
 import Error from '../../components/Error/Error';
-import ButtonUp from '../../components/ButtonUp/ButtonUp';
 
 const MoviesPage = () => {
   const [loading, setLoading] = useState(false);
@@ -59,11 +58,6 @@ const MoviesPage = () => {
         {isEmpty && !loading && <RequestNotFound />}
       </div>
       {movies.length > 0 && <MovieList movies={movies} />}
-      {movies.length > 0 && (
-        <div>
-          <ButtonUp />
-        </div>
-      )}
     </>
   );
 };
