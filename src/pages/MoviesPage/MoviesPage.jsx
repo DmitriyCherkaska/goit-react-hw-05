@@ -12,26 +12,23 @@ import Error from '../../components/Error/Error';
 const MoviesPage = () => {
   const [loading, setLoading] = useState(false);
   const [movies, setMovies] = useState([]);
-  const [isEmpty, setIsEmpty] = useState(false);
+  // const [isEmpty, setIsEmpty] = useState(false);
   const [error, setError] = useState(null);
   const [isError, setIsError] = useState(false);
-  const [isNoText, setIsNoText] = useState(false);
+  // const [isNoText, setIsNoText] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const text = searchParams.get('text');
 
   useEffect(() => {
-    if (text === '') {
-      setIsNoText(true);
-      return;
-    }
+    if (!text) return;
 
     async function getSearchMovies() {
       setLoading(true);
       try {
         const { results } = await searchMovies(text);
         setMovies(results);
-        setIsNoText(false);
-        results.length === 0 && setIsEmpty(true);
+
+        // results.length === 0 && setIsEmpty(true);
       } catch (error) {
         console.error('error in App', error);
         setError(error.message);
@@ -40,22 +37,23 @@ const MoviesPage = () => {
         setLoading(false);
       }
     }
-    text && getSearchMovies();
+    getSearchMovies();
   }, [text]);
 
   const searchMovie = textInput => {
     setSearchParams({ text: textInput });
-    setIsEmpty(false);
+    // setIsEmpty(false);
     setMovies([]);
   };
+
   return (
     <>
       <div>
         <FormSearch submit={searchMovie} />
-        {isNoText && <MessageText />}
+        {movies.length === 0 && !loading && <MessageText />}
         {isError && <Error errorType={error} />}
         {loading && <Loader />}
-        {isEmpty && !loading && <RequestNotFound />}
+        {movies.length && !loading && <RequestNotFound />}
       </div>
       {movies.length > 0 && <MovieList movies={movies} />}
     </>

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-const NotFound = () => {
+const NotFoundPage = () => {
   return <Link to="/"></Link>;
 };
-export default NotFound;
+export default NotFoundPage;
